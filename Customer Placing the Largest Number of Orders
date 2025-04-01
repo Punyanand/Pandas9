@@ -1,1 +1,17 @@
+import pandas as pd
 
+def largest_orders(orders: pd.DataFrame) -> pd.DataFrame:
+    if orders.empty:  # Handle case where there are no orders
+        return pd.DataFrame(columns=["customer_number"])
+
+    # Count the number of orders per customer
+    order_counts = orders.groupby("customer_number")["order_number"].count()
+
+    if order_counts.empty:  # Handle case where no customers exist
+        return pd.DataFrame(columns=["customer_number"])
+
+    # Find the customer with the max orders
+    max_customer = order_counts.idxmax()
+
+    # Return result as a DataFrame
+    return pd.DataFrame({"customer_number": [max_customer]})
